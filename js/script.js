@@ -52,7 +52,6 @@ function appendPageLinks(studentList){
    const referenceNode = document.querySelector('div.page');
    referenceNode.insertBefore( pageListNode, studentListNode.nextSibling);
 
-
    //generate the number of links needed
    for (let i = 0; i < pagesNeeded; i += 1){
       let pageLinkLi = document.createElement('li');
@@ -72,6 +71,7 @@ function appendPageLinks(studentList){
 
 /**
  * event handler for page links
+ * when a link is clicked, set only that link to active and display requested page
  */
 pageListNode.addEventListener('click', (e) => {
    if (e.target.tagName === 'A'){
@@ -91,7 +91,6 @@ pageListNode.addEventListener('click', (e) => {
       //show the selected page
       showPage(studentList, page);
    }
-
 
 })
 
