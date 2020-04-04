@@ -2,49 +2,99 @@
 Treehouse Techdegree:
 FSJS project 2 - List Filter and Pagination
 ******************************************/
+
+
+//store the student list item elements
+const studentList = document.querySelectorAll('.student-item');
+
+//store the number of items to show on each “page”, which for this project, is 10
+const perPage = 10;
+
+//create node to store buttons
+const pageListNode = document.createElement('div');
+pageListNode.className = 'pagination';
+
+/*** 
+   `showPage` function
+   - hides all of the items in the list, except for the given range
+   - The 'list' parameter represents the actual list of students
+   - The 'page' parameter represents the page number
+***/
+function showPage(list, page) {
+   const startIndex = (page * perPage) - perPage;
+   const endIndex = (page * perPage) - 1;
    
-// Study guide for this project - https://drive.google.com/file/d/1OD1diUsTMdpfMDv677TfL1xO2CEkykSz/view?usp=sharing
+   for (let i = 0; i < list.length; i += 1) {
+      list[i].style.display = 'none';
+    }
+  
+    for (let i = 0; i < list.length; i += 1) {
+      if (i >= startIndex && i <= endIndex){
+        list[i].style.display = 'block';
+      }
+    }
+  }
+  
+/**
+ * `appendPageLinks` function
+ * - creates and appends functioning pagination links
+ */
+function appendPageLinks(studentList){
+   const listLength = studentList.length;
+   const pagesNeeded = Math.ceil(listLength / perPage);
+   const studentListNode = document.querySelector('ul.student-list');
+         
+   //create & append child node of list items to store pagination links
+   const paginationLinks = document.createElement('ul')
+   pageListNode.appendChild(paginationLinks);
+
+   //append page links section to bottom of page
+   const referenceNode = document.querySelector('div.page');
+   referenceNode.insertBefore( pageListNode, studentListNode.nextSibling);
 
 
-/*** 
-   Add your global variables that store the DOM elements you will 
-   need to reference and/or manipulate. 
+   //generate the number of links needed
+   for (let i = 0; i < pagesNeeded; i += 1){
+      let pageLinkLi = document.createElement('li');
+      let pageLinkA = document.createElement('a');
+      const pageNumber = i + 1;
+      pageLinkA.setAttribute('href', '#');
+      pageLinkA.innerText = pageNumber;
+      pageLinkLi.appendChild(pageLinkA);
+      paginationLinks.appendChild(pageLinkLi);
+   }
    
-   But be mindful of which variables should be global and which 
-   should be locally scoped to one of the two main functions you're 
-   going to create. A good general rule of thumb is if the variable 
-   will only be used inside of a function, then it can be locally 
-   scoped to that function.
-***/
+   //set the first page as active
+   const firstPageLink = paginationLinks.firstElementChild.firstElementChild;
+   firstPageLink.className = 'active';
+
+}
+
+/**
+ * event handler for page links
+ */
+pageListNode.addEventListener('click', (e) => {
+   if (e.target.tagName === 'A'){
+      const listItems = document.querySelectorAll('.pagination ul li');
+            
+      //remove active class from all list items
+      for (let i = 0; i < listItems.length; i += 1){
+         listItems[i].firstElementChild.className = '';
+      }
+
+      //set active class to the page link clicked
+      e.target.className = 'active';
+
+      //capture the desired page number
+      const page = e.target.innerText;
+
+      //show the selected page
+      showPage(studentList, page);
+   }
 
 
+})
 
-
-/*** 
-   Create the `showPage` function to hide all of the items in the 
-   list except for the ten you want to show.
-
-   Pro Tips: 
-     - Keep in mind that with a list of 54 students, the last page 
-       will only display four.
-     - Remember that the first student has an index of 0.
-     - Remember that a function `parameter` goes in the parens when 
-       you initially define the function, and it acts as a variable 
-       or a placeholder to represent the actual function `argument` 
-       that will be passed into the parens later when you call or 
-       "invoke" the function 
-***/
-
-
-
-
-/*** 
-   Create the `appendPageLinks function` to generate, append, and add 
-   functionality to the pagination buttons.
-***/
-
-
-
-
-
-// Remember to delete the comments that came with this file, and replace them with your own code comments.
+//call functions
+showPage(studentList, 1);
+appendPageLinks(studentList);
