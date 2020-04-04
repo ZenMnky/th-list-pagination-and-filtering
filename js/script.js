@@ -2,6 +2,10 @@
 Treehouse Techdegree:
 FSJS project 2 - List Filter and Pagination
 ******************************************/
+/**
+ * Code by ZenMnky (Justin Hager)
+ * Aiming for 'Meets Expectations' requirements
+ */
 
 
 //store the student list item elements
